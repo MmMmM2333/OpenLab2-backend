@@ -6,8 +6,7 @@ const jwt = require('jsonwebtoken');
 
 const userModel = require('./userModel')
 const roleModel = require('./roleModel')
-const counterModel = require('./counterModel');
-const problemModel = require('./problemModel');
+const counterModel = require('./counterModel')
 
 const secretKey = "strongest ^0^";
 
@@ -35,18 +34,12 @@ async function getRole(roleID) {
 }
 
 module.exports = {
-    checkAdminAuthority: async function (username) {
-        let user = await userModel.findOne({ username })
-        if (!user || user.roleID != 1) return false
-        return true
-    },
-
     userInfo: async function (userID) {
         let result = await userModel.findOne({ id: userID }).lean()
         delete result.password
-        delete result.__v
         result.role = await getRole(result.roleID)
-
+        delete result.roleID
+        delete result.__v
         console.log(result);
     },
 
@@ -110,9 +103,9 @@ module.exports = {
         //向数据库添加用户
         const newUser = new userModel({
             id: await getIncID('user'),
-            username,
-            password,
-            studentID,
+            username: username,
+            password: password,
+            studentID: studentID,
         })
         try {
             await newUser.save()
@@ -133,71 +126,28 @@ module.exports = {
         let username = req.auth.username
         hasAuthority = await this.checkAdminAuthority(username)
         log(`用户 ${username} 尝试添加题目`);
-
         if (!hasAuthority) {
             log(`用户 ${username} 尝试添加题目失败，原因：用户无权限`);
             return { code: 401, msg: '用户无权限执行当前操作' }
         }
-
-        let miniTitle = req.body.miniTitle
-        let title = req.body.title
-        let score = req.body.score
-        let description = req.body.description
-
-        if (!miniTitle || !title || !score) {
-            log(`用户 ${username} 尝试添加题目失败，原因：参数不完整`);
-            return { code: 412, msg: '参数不完整!请检查miniTitle,title和score是否填写' }
-        }
-
-        const newProblem = new problemModel({
-            id: await getIncID('problem'),
-            miniTitle,
-            title,
-            score,
-            description
-        })
-
-        try {
-            await newProblem.save()
-        } catch (error) {
-            console.log(error);
-            throw error
-        }
-
-        log(`用户 ${username} 尝试添加题目成功，题目标题:${title}`);
+        log(`用户 ${username} 尝试添加题目成功`);
         return { code: 200, msg: '添加成功' }
     },
 
     removeProblem: async function (req) {
         let username = req.auth.username
-        let problemID = req.query.id
         hasAuthority = await this.checkAdminAuthority(username)
-        log(`用户 ${username} 尝试移除题目，题目ID:${problemID}`);
-
+        log(`用户 ${username} 尝试移除题目`);
         if (!hasAuthority) {
-            log(`用户 ${username} 尝试移除题目失败，题目ID:${problemID}，原因：用户无权限`);
+            log(`用户 ${username} 尝试移除题目失败，原因：用户无权限`);
             return { code: 401, msg: '用户无权限执行当前操作' }
         }
-
-
-        let problem = await problemModel.findOne({ id: problemID })
-        if (!problem) {
-            log(`用户 ${username} 尝试移除题目失败，题目ID:${problemID}，原因：题目不存在`);
-            return { code: 412, msg: '题目不存在' }
-        }
-
-        let title = problem.title
-
-        try {
-            await problemModel.deleteOne({ id: problemID })
-        } catch (error) {
-            console.log(error);
-            throw error
-        }
-
-        log(`用户 ${username} 尝试移除题目成功，题目名称:${title}`);
+        log(`用户 ${username} 尝试移除题目成功`);
         return { code: 200, msg: '移除成功' }
     },
-
-
+    checkAdminAuthority: async function (username) {
+        let user = await userModel.findOne({ username })
+        if (!user || user.roleID != 1) return false
+        return true
+    }
 }

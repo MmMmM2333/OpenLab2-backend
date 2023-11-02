@@ -24,7 +24,7 @@ app.use(
     expressJWT({ secret: secretKey, algorithms: ["HS256"] })
         .unless({
             // 指定路径请求不经过token解析
-            path: ['/login', '/register']
+            path: ['/login', '/register', '/test1']
         })
 )
 

@@ -1,32 +1,34 @@
 const mongoose = require('mongoose');
 
-let userSchema = mongoose.Schema({
+let counterSchema = mongoose.Schema({
     id: {
         type: Number,
         required: true
     },
-    username: {
+    miniTitle: {
         type: String,
         required: true
     },
-    studentID: {
+    title: {
         type: String,
         required: true
     },
-    password: {
+    description: {
         type: String,
+        default: ''
+    },
+    score: {
+        type: Number,
         required: true
     },
-    hasJoin: { type: Boolean, default: false },
-    score: [],
-    roleID: {
+    totalAttempts: {
         type: Number,
         default: 0
     },
-    createTime: {
-        type: Date,
-        default: Date.now
-    }
+    totalCompleted: {
+        type: Number,
+        default: 0
+    },
 })
 
-module.exports = userSchema;
+module.exports = counterSchema;

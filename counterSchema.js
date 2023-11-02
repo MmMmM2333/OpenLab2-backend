@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-let counterSchema = mongoose.Schema({
+let problemSchema = mongoose.Schema({
     name: String,
     id: Number
 })
 
-module.exports = counterSchema;
+module.exports = problemSchema;
