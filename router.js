@@ -2,18 +2,6 @@ var express = require('express')
 var router = express.Router()
 var api = require('./api')
 
-// const crytpo = require("crytpo");
-
-
-router.get('/test', async function (req, res, next) {
-    res.send('yeeeeah')
-})
-
-router.get('/test1', async function (req, res, next) {
-    api.userInfo(1);
-    res.send('yeeeeah')
-})
-
 // 登录接口
 router.post('/login', async function (req, res, next) {
     try {
