@@ -63,4 +63,67 @@ router.get('/removeProblem', async function (req, res, next) {
     }
 })
 
+router.get('/removeUser', async function (req, res, next) {
+    try {
+        let result = await api.removeUser(req)
+        res.send(result)
+    } catch (error) {
+        next(error)
+    }
+})
+
+router.get('/getUserInfo', async function (req, res, next) {
+    try {
+        let result = await api.getUserInfo(req)
+        res.send(result)
+    } catch (error) {
+        next(error)
+    }
+})
+
+router.get('/getProblem', async function (req, res, next) {
+    try {
+        let result = await api.getProblem(req)
+        res.send(result)
+    } catch (error) {
+        next(error)
+    }
+})
+
+router.get('/getProblems', async function (req, res, next) {
+    try {
+        let result = await api.getProblems(req)
+        res.send(result)
+    } catch (error) {
+        next(error)
+    }
+})
+
+router.get('/submitScore', async function (req, res, next) {
+    try {
+        let result = await api.submitScore(req)
+        res.send(result)
+    } catch (error) {
+        next(error)
+    }
+})
+
+router.get('/getAllUsers', async function (req, res, next) {
+    try {
+        let result = await api.getAllUsers(req)
+        res.send(result)
+    } catch (error) {
+        next(error)
+    }
+})
+
+router.post('/editProblem', async function (req, res, next) {
+    try {
+        let result = await api.editProblem(req)
+        res.send(result)
+    } catch (error) {
+        next(error)
+    }
+})
+
 module.exports = router

@@ -17,7 +17,17 @@ function GetNowMoment() {
     return moment().utcOffset(8).format('YYYY-MM-DD HH:mm:ss.SSS Z')
 }
 
+//跨域
+app.all("*", function (req, res, next) {
 
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Authorization');
+    res.header("X-Powered-By", ' 3.2.1');
+    res.header("Content-Type", "application/json;charset=utf-8");
+
+    next();
+});
 
 //配置express-jwt中间件
 app.use(
@@ -27,18 +37,6 @@ app.use(
             path: ['/login', '/register', '/test1']
         })
 )
-
-//跨域
-app.all("*", function (req, res, next) {
-
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-    res.header("X-Powered-By", ' 3.2.1');
-    res.header("Content-Type", "application/json;charset=utf-8");
-
-    next();
-});
 
 app.use(bodyParser.urlencoded({
     extended: false

@@ -21,6 +21,10 @@ let counterSchema = mongoose.Schema({
         type: Number,
         required: true
     },
+    showInRank: {
+        type: Boolean,
+        default: true
+    },
     totalAttempts: {
         type: Number,
         default: 0
@@ -29,6 +33,15 @@ let counterSchema = mongoose.Schema({
         type: Number,
         default: 0
     },
+    totalCompletedPeople: {
+        type: Number,
+        default: 0
+    },
+    completedUserIDs: [],
+    createTime: {
+        type: Date,
+        default: Date.now
+    }
 })
 
 module.exports = counterSchema;
