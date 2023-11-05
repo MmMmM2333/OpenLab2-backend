@@ -147,7 +147,9 @@ module.exports = {
         let title = req.body.title
         let score = req.body.score || 10
         let description = req.body.description
-        let showInRank = req.body.showInRank || true
+        let showInRank = req.body.showInRank
+
+        console.log(showInRank);
 
         if (!miniTitle || !title || !score) {
             log(`用户 ${username} 尝试添加题目失败,原因：参数不完整`);
